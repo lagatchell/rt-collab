@@ -1,0 +1,68 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.main-container {
+    flex: 1 1 auto;
+}
+
+.toolbar-container {
+    flex: 0 0 auto;
+}
+
+.content-container {
+    display: flex;
+    height: 94vh;
+    flex-direction: column;
+    margin: 5px;
+}
+
+mat-card {
+    margin: 5px;
+}
+
+.doc-hitlist-container {
+    height: 35vh;
+}
+
+.doc-viewer-container {
+    max-height: 43vh;
+    overflow: auto;
+}
+
+.right-sidenav {
+    height: 100%;
+    width: 400px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+    overflow-x: hidden;
+}
+
+.left-sidenav {
+    height: 100%;
+    width: 100px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+    overflow-x: hidden;
+}
+
+.doc-loading-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 90vh;
+}
+
+.icon {
+    padding: 0 14px;
+}
+
+.toolbar {
+    z-index: 100;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+}
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}

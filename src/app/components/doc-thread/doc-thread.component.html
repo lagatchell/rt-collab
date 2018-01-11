@@ -1,0 +1,38 @@
+<mat-list *ngIf="!threadSelected">
+  <div mat-subheader class="thread-action-header">
+    <h3>Threads</h3>
+    <span class="sub-header-spacer" ></span>
+    <button mat-icon-button (click)="newThread();">
+      <mat-icon aria-label="Add Thread" title="Add Thread" color="primary">add_circle</mat-icon>
+    </button>
+  </div>
+  <div *ngIf="!loadingThreads">
+    <mat-list-item class="thread-item" *ngFor="let thread of threads" (click)="getPosts(thread);">
+      <mat-icon mat-list-icon color="primary">question_answer</mat-icon>
+      <h4 mat-line>{{thread.title}}</h4>
+    </mat-list-item>
+  </div>
+</mat-list>
+
+<div *ngIf="threadSelected">
+  <mat-list>
+    <div mat-subheader >
+      <button mat-icon-button>
+        <mat-icon aria-label="Return to Thread List" color="primary" (click)="returnToThreadList();" >arrow_back</mat-icon>
+      </button>
+      <span class="sub-header-spacer" ></span>
+      <h3>{{currentThread.title}} - {{currentThread.threadId}}</h3>
+    </div>
+  </mat-list>
+
+  <div *ngFor="let post of threadPosts" >
+    <thread-post [post]='post' ></thread-post>
+  </div>
+  <div class="thread-actions" >
+    <mat-form-field class="comment-box">
+      <textarea matInput placeholder="Comment" [(ngModel)]="postContent" matTextareaAutosize matAutosizeMinRows="2"
+      matAutosizeMaxRows="5"></textarea>
+      <mat-icon matSuffix title="Post" class="btn-send-comment" color="primary" (click)="addPost();" >send</mat-icon>
+    </mat-form-field>
+  </div>
+</div>

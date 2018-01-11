@@ -1,0 +1,36 @@
+.thread-item:hover {
+    cursor: pointer;
+    background-color:rgba(63, 81, 181, 0.1);
+}
+
+.comment-box {
+    width: 95%;
+    margin: 5px;
+}
+
+.btn-send-comment {
+   cursor: pointer;
+}
+
+.thread-actions {
+    width: 100%;
+    border-top: 1px solid #3f51b5;
+}
+
+.btn-container {
+    display: flex;
+    align-items: center;
+}
+
+.messages-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.sub-header-spacer {
+    flex: 1 1 auto;
+}
+
+.thread-action-header {
+    border-bottom: 1px solid #3f51b5;
+}

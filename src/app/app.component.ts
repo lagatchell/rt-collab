@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { DocumentService } from './services/document.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  isLoading: boolean = true;
+
+  constructor(
+    private documentService: DocumentService
+  ) {}
+
+  ngOnInit() {
+    setTimeout(()=>{
+      this.isLoading = false;
+    }, 1000);
+  }
+
 }

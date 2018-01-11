@@ -1,0 +1,21 @@
+.viewer-container {
+    background-color: #686868;
+    padding: 5px;
+}
+
+.viewer-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 43vh;
+}
+
+.viewer-empty-state>label {
+    margin: 30px;
+    color: #686868;
+}
+
+.mat-icon {
+    font-size: 50px;
+}

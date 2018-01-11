@@ -1,0 +1,13 @@
+<div class="header">
+    <label>Add Thread</label>
+    <label class="btn-close" (click)="onNoClick();" ><i class="fa fa-times" aria-hidden="true"></i></label>
+</div>
+<br />
+<mat-dialog-content>
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Thread Title" [(ngModel)]="threadTitle" >
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="addThread();" ><mat-icon aria-label="Add Thread" title="Add Thread">add_circle_outline</mat-icon> Add</button>
+</mat-dialog-actions>
