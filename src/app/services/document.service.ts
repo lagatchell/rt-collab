@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Document } from '../models/document';
 import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class DocumentService {
@@ -16,15 +17,21 @@ export class DocumentService {
     },
     {
       id: '2',
-      documentName: 'Test 1',
+      documentName: 'Test Document 1',
       documentDate: new Date('1/10/2018'),
       docUrl: './assets/images/test-doc1.pdf'
+    },
+    {
+      id: '3',
+      documentName: 'Test Document 2',
+      documentDate: new Date('1/10/2018'),
+      docUrl: './assets/images/test-doc2.pdf'
     }
   ];
 
   currentDocument: Document = this.documents[0];
 
-  documents$: Subject<Array<Document>> = new Subject();
+  documents$: BehaviorSubject<Array<Document>> = new BehaviorSubject(this.documents);
 
   currentDocument$: Subject<Document> = new Subject();
 
@@ -32,10 +39,6 @@ export class DocumentService {
 
   getDocuments() {
     return this.documents$;
-  }
-
-  updateDocuments() {
-    this.documents$.next(this.documents);
   }
 
   setCurrentDocument(document: Document) {

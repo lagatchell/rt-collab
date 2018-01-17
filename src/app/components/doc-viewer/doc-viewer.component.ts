@@ -17,7 +17,12 @@ export class DocViewerComponent implements OnInit {
 
   ngOnInit() {
     this.documentService.currentDocument$.subscribe((doc) => {
-      this.pdfSrc = doc.docUrl;
+      if(doc) {
+        this.pdfSrc = doc.docUrl;
+      }
+      else {
+        this.pdfSrc = null;
+      }
     });
   }
 

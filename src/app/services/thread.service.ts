@@ -50,28 +50,29 @@ export class ThreadService {
 
     this.connection.on("GetThreads", threads => {
         threads = JSON.parse(threads);
-
-        /* if (threads.length > 0) {
-          if (threads[0].documentId == documentId) { */
-            this.posts$.next(threads);
-        /*   }
-        } */
+        console.log(threads);
+        console.log(documentId);
+        if (threads.length > 0) {
+          if (threads[0].documentId == documentId) {
+            this.threads$.next(threads);
+          }
+        }
     });
 
     return this.threads$;
   }
 
-  getPostsInitial(threadId: string) {
-    return this.http.get(`${this.baseUrl}/api/posts/${threadId}`);
+  getPostsInitial(thread: Thread) {
+    return this.http.get(`${this.baseUrl}/api/posts/${thread.threadId}`);
   }
 
-  getPosts(threadId: string) {
+  getPosts(thread: Thread) {
     this.connection.on("GetPosts", (posts) => {
         posts = JSON.parse(posts);
         
         if (posts.length > 0) {
           console.log(posts);
-          if (posts[0].threadId == threadId) {
+          if (posts[0].threadId == thread.threadId) {
             this.posts$.next(posts);
           }
         }

@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 
@@ -29,6 +30,7 @@ import { DocHitlistComponent } from './components/doc-hitlist/doc-hitlist.compon
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     MaterialDesignModule,
     FormsModule,

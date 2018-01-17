@@ -2,8 +2,8 @@
   <div mat-subheader class="thread-action-header">
     <h3>Threads</h3>
     <span class="sub-header-spacer" ></span>
-    <button mat-icon-button (click)="newThread();">
-      <mat-icon aria-label="Add Thread" title="Add Thread" color="primary">add_circle</mat-icon>
+    <button mat-icon-button (click)="newThread();" color="primary" [disabled]="addThreadDisabled">
+      <mat-icon aria-label="Add Thread" title="Add Thread">add_circle</mat-icon>
     </button>
   </div>
   <div *ngIf="!loadingThreads">
@@ -11,17 +11,26 @@
       <mat-icon mat-list-icon color="primary">question_answer</mat-icon>
       <h4 mat-line>{{thread.title}}</h4>
     </mat-list-item>
+    <mat-list-item *ngIf="addNewThread">
+      <mat-icon mat-list-icon color="primary">question_answer</mat-icon>
+      <mat-form-field class="full-width">
+        <input id="threadTitle" matInput [(ngModel)]="threadTitle" (keyup.enter)="addThread();" >
+      </mat-form-field>
+    </mat-list-item>
   </div>
 </mat-list>
 
 <div *ngIf="threadSelected">
   <mat-list>
-    <div mat-subheader >
+    <div mat-subheader class="thread-subheader-title">
       <button mat-icon-button>
         <mat-icon aria-label="Return to Thread List" color="primary" (click)="returnToThreadList();" >arrow_back</mat-icon>
       </button>
       <span class="sub-header-spacer" ></span>
-      <h3>{{currentThread.title}} - {{currentThread.threadId}}</h3>
+      <div class="thread-label-container">
+        <h3 class="current-document-label">{{currentThread.title}}</h3>
+        <label>{{currentDocument.documentName}}</label>
+      </div>
     </div>
   </mat-list>
 
@@ -30,9 +39,8 @@
   </div>
   <div class="thread-actions" >
     <mat-form-field class="comment-box">
-      <textarea matInput placeholder="Comment" [(ngModel)]="postContent" matTextareaAutosize matAutosizeMinRows="2"
+      <textarea matInput placeholder="Comment" [(ngModel)]="postContent" matTextareaAutosize matAutosizeMinRows="2" (keyup.enter)="addPost();"
       matAutosizeMaxRows="5"></textarea>
-      <mat-icon matSuffix title="Post" class="btn-send-comment" color="primary" (click)="addPost();" >send</mat-icon>
     </mat-form-field>
   </div>
 </div>

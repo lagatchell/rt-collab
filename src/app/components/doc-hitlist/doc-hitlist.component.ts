@@ -12,6 +12,8 @@ import { Document } from '../../models/document';
 
 import { DocumentService } from '../../services/document.service';
 
+import { Observable } from 'rxjs/Observable';
+
 @Component({
   selector: 'doc-hitlist',
   templateUrl: './doc-hitlist.component.html',
@@ -19,16 +21,19 @@ import { DocumentService } from '../../services/document.service';
 })
 export class DocHitlistComponent implements OnInit {
 
+  documents: Array<Document> = [];
   dataSource: MatTableDataSource<any>;
   displayedColumnKeys = ['documentName', 'documentDate'];
   displayedColumns = [
       {
           id: 'documentName',
-          display: 'Document Name'
+          display: 'Document Name',
+          type: 'string'
       },
       {
           id: 'documentDate',
-          display: 'Document Date'
+          display: 'Document Date',
+          type: 'date'
       }
   ];
 
@@ -37,7 +42,10 @@ export class DocHitlistComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getDocuments();
+    setTimeout(() => {
+      this.getDocuments();
+    }, 1);
+    
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -46,16 +54,16 @@ export class DocHitlistComponent implements OnInit {
 
   getDocuments() {
     this.documentService.getDocuments().subscribe((docs) => {
+      this.documents = docs;
       this.dataSource = new MatTableDataSource<any>(docs);
       this.dataSource.sort = this.sort;
-      //this.dataSource.paginator = this.paginator;
+      this.dataSource.paginator = this.paginator;
     });
-
-    this.documentService.updateDocuments();
   }
 
-  openDocument(document: Document) {
-    this.documentService.setCurrentDocument(document);
+  openDocument(doc: Document) {
+    this.documentService.setCurrentDocument(doc);
+    this.selectRow(doc.id, true);
   }
 
   applyFilter(filterValue: string)
@@ -63,5 +71,32 @@ export class DocHitlistComponent implements OnInit {
       filterValue = filterValue.trim();
       filterValue = filterValue.toLowerCase();
       this.dataSource.filter = filterValue;
+  }
+
+  selectRow(rowId, clearOtherRows: boolean) {
+    let row = document.getElementById('doc-' + rowId);
+    row.className = "data-row mat-row ng-star-inserted row-selected";
+
+    if (clearOtherRows) {
+      this.clearRowSelections(rowId);
+    }
+  }
+
+  clearRowSelections(rowId?) {
+    if (rowId) {
+      for (let i=0; i<this.documents.length; i++) {
+        if (this.documents[i].id != rowId) {
+          let otherRow = document.getElementById('doc-' + this.documents[i].id);
+          otherRow.className = "data-row mat-row ng-star-inserted";
+        }
+      }
+    }
+    else {
+      for (let i=0; i<this.documents.length; i++) {
+        let otherRow = document.getElementById('doc-' + this.documents[i].id);
+        otherRow.className = "data-row mat-row ng-star-inserted";
+      }
+      this.documentService.currentDocument$.next(null);
+    }
   }
 }

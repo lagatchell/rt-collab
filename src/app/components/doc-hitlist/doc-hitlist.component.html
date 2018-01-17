@@ -2,6 +2,7 @@
     <div class="example-header">
         <mat-form-field>
           <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+          <mat-icon matSuffix aria-label="Clear All" class="btn-clearAll" (click)="clearRowSelections();" title="Clear All" color="primary">clear_all</mat-icon>
         </mat-form-field>
     </div>
     
@@ -11,20 +12,23 @@
       <div *ngFor="let colDef of displayedColumns">
           <ng-container matColumnDef="{{colDef.id}}">
             <mat-header-cell class="mat-header" mat-sort-header *matHeaderCellDef> {{colDef.display}} </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element[colDef.id]}}</mat-cell>
+            <mat-cell *matCellDef="let element">
+                <span *ngIf="colDef.type == 'string'" >{{element[colDef.id]}}</span>
+                <span *ngIf="colDef.type == 'date'" >{{element[colDef.id] | date: 'MM/dd/yyyy'}}</span>
+            </mat-cell>
           </ng-container>
       </div>
     
       <mat-header-row *matHeaderRowDef="displayedColumnKeys"></mat-header-row>
-      <mat-row class="data-row" *matRowDef="let row; columns: displayedColumnKeys;" 
+      <mat-row class="data-row" id="doc-{{row.id}}" *matRowDef="let row; columns: displayedColumnKeys;" 
         (click)="openDocument(row);" >
     </mat-row>
     </mat-table>
     
     <!-- Paginator -->
     <mat-paginator #paginator
-            [pageSize]="10"
-            [pageSizeOptions]="[10, 20, 50, 75, 100]">
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 50, 100]">
     </mat-paginator>
 </div>
 

@@ -8,14 +8,30 @@
 }
 
 .mat-header:hover {
-    color: #337ab7;
+    color: #3f51b5;
 }
 
 .mat-header:focus {
-    color: #337ab7;
+    color: #3f51b5;
 }
 
 .data-row:hover {
     background-color:rgba(63, 81, 181, 0.1);
+    cursor: pointer;
+}
+
+.row-selected {
+    background-color:#3f51b5;
+}
+
+.row-selected:hover {
+    background-color:#3f51b5;
+}
+
+.row-selected>.mat-cell {
+    color: #fff;
+}
+
+.btn-clearAll {
     cursor: pointer;
 }
