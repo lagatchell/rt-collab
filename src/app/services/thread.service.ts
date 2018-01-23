@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 
+import { createSignalRHub  } from 'rxjs-signalr';
 import * as signalR from '@aspnet/signalr-client';
 
 import { DocumentService } from './document.service';
@@ -11,8 +12,10 @@ import { Post } from '../models/post';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
+
+import { HeaderRowPlaceholder } from '@angular/cdk/table';
 
 @Injectable()
 export class ThreadService {
@@ -42,24 +45,23 @@ export class ThreadService {
   }
 
   getThreadsInitial(documentId: string) {
-    this.documentId = documentId;
     return this.http.get(`${this.baseUrl}/api/threads/${documentId}`);
   }
 
-  getThreads(documentId: string) {
-
+  getThreads() {
     this.connection.on("GetThreads", threads => {
         threads = JSON.parse(threads);
-        console.log(threads);
-        console.log(documentId);
-        if (threads.length > 0) {
-          if (threads[0].documentId == documentId) {
-            this.threads$.next(threads);
-          }
-        }
+        this.threads$.next(threads);
     });
 
-    return this.threads$;
+    return Observable.combineLatest(this.threads$, this.documentService.currentDocument$)
+    .filter(([threads, document]) => {
+      return threads.some(thread => thread.documentId == document.id);
+    })
+    .map(([threads, document]) => {
+      return threads;
+    });
+
   }
 
   getPostsInitial(thread: Thread) {
@@ -71,7 +73,6 @@ export class ThreadService {
         posts = JSON.parse(posts);
         
         if (posts.length > 0) {
-          console.log(posts);
           if (posts[0].threadId == thread.threadId) {
             this.posts$.next(posts);
           }
@@ -88,21 +89,25 @@ export class ThreadService {
       userName: location.host
     };
 
-    console.log(newPost);
-
     this.http.post(`${this.baseUrl}/api/posts/${post.threadId}`, newPost).subscribe((data) => {
       console.log(data);
     });
   }
 
-  addThread(threadTitle) {
+  addThread(threadTitle, docID) {
     
     let newThread: Thread = {
       title: threadTitle,
       posts: []
     };
 
-    this.http.post(`${this.baseUrl}/api/threads/${this.documentId}`, newThread).subscribe((data: any) => {
+    this.http.post(`${this.baseUrl}/api/threads/${docID}`, newThread).subscribe((data: any) => {
+      console.log(data);
+    });
+  }
+
+  updateThread(thread: Thread) {
+    this.http.put(`${this.baseUrl}/api/threads/${thread.threadId}`, thread).subscribe((data: any) => {
       console.log(data);
     });
   }

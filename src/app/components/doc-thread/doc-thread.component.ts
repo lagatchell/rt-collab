@@ -3,12 +3,14 @@ import { MatDialog, MatFormField } from '@angular/material';
 
 import { ThreadService } from '../../services/thread.service';
 
-import { AddThreadDialog } from '../../dialogs/add-thread.dialog';
+import { EditThreadDialog } from '../../dialogs/edit-thread.dialog';
 
 import { Thread } from '../../models/thread';
 import { Post } from '../../models/post';
 import { DocumentService } from '../../services/document.service';
 import { Document } from '../../models/document';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
  
 @Component({
   selector: 'doc-thread',
@@ -27,7 +29,7 @@ export class DocThreadComponent implements OnInit {
   addThreadDisabled: boolean = true;
   threadTitle: string;
   addNewThread: boolean = false;
-  
+
   constructor(
     private threadService: ThreadService,
     private documentService: DocumentService,
@@ -42,12 +44,8 @@ export class DocThreadComponent implements OnInit {
     this.documentService.currentDocument$.subscribe((document: Document) => {
 
       if (document) {
-        this.threadService.getThreadsInitial(document.id).subscribe((threads: Array<Thread>) => {
-          this.threads = threads;
-          this.loadingThreads = false;
-        }); 
 
-        this.threadService.getThreads(document.id).subscribe((threads: Array<Thread>) => {
+       this.threadService.getThreadsInitial(document.id).subscribe((threads: Array<Thread>) => {
           this.threads = threads;
           this.loadingThreads = false;
         });
@@ -64,6 +62,11 @@ export class DocThreadComponent implements OnInit {
         this.addThreadDisabled = true;
       }
       this.clearThreadField();
+    });
+
+    this.threadService.getThreads().subscribe((threads: Array<Thread>) => {
+      this.threads = threads;
+      this.loadingThreads = false;
     });
   }
 
@@ -112,7 +115,7 @@ export class DocThreadComponent implements OnInit {
 
   addThread() {
     if (this.threadTitle) {
-      this.threadService.addThread(this.threadTitle);
+      this.threadService.addThread(this.threadTitle, this.currentDocument.id);
       this.clearThreadField();
     }
   }
@@ -120,5 +123,16 @@ export class DocThreadComponent implements OnInit {
   clearThreadField() {
     this.addNewThread = false;
     this.threadTitle = null;
+  }
+
+  showEditDialog(thread: Thread) {
+    const self = this;
+        let dialogRef = this.dialog.open(EditThreadDialog, {
+            height: '200px',
+            width: '350px',
+            data: thread
+        });
+    
+    return false;
   }
 }

@@ -35,3 +35,8 @@
 .btn-clearAll {
     cursor: pointer;
 }
+
+.data-table {
+    height: 20vh;
+    overflow-y: auto;
+}

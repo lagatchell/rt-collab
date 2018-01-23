@@ -7,7 +7,7 @@
     </button>
   </div>
   <div *ngIf="!loadingThreads">
-    <mat-list-item class="thread-item" *ngFor="let thread of threads" (click)="getPosts(thread);">
+    <mat-list-item class="thread-item" *ngFor="let thread of threads" (click)="getPosts(thread);" (contextmenu)="showEditDialog(thread);">
       <mat-icon mat-list-icon color="primary">question_answer</mat-icon>
       <h4 mat-line>{{thread.title}}</h4>
     </mat-list-item>

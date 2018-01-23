@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 
 import { 
   MatPaginator, 
@@ -9,9 +9,7 @@ import {
 } from '@angular/material';
 
 import { Document } from '../../models/document';
-
 import { DocumentService } from '../../services/document.service';
-
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -19,7 +17,7 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: './doc-hitlist.component.html',
   styleUrls: ['./doc-hitlist.component.css']
 })
-export class DocHitlistComponent implements OnInit {
+export class DocHitlistComponent implements OnInit, AfterViewInit {
 
   documents: Array<Document> = [];
   dataSource: MatTableDataSource<any>;
@@ -42,10 +40,12 @@ export class DocHitlistComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.getDocuments();
-    }, 1);
-    
+    this.getDocuments();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -56,8 +56,6 @@ export class DocHitlistComponent implements OnInit {
     this.documentService.getDocuments().subscribe((docs) => {
       this.documents = docs;
       this.dataSource = new MatTableDataSource<any>(docs);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
     });
   }
 

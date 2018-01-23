@@ -1,0 +1,14 @@
+<div class="header">
+    <label>Edit</label>
+    <label class="btn-close" (click)="onNoClick();" ><i class="fa fa-times" aria-hidden="true"></i></label>
+</div>
+<br />
+<mat-dialog-content>
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Thread Title" [(ngModel)]="thread.title" >
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="accent" (click)="deleteThread();" ><mat-icon aria-label="Delete Thread" title="Delete Thread">delete</mat-icon> Delete</button>
+    <button mat-raised-button color="primary" (click)="updateThread();" ><mat-icon aria-label="Save Thread" title="Save Thread">save</mat-icon> Save</button>
+</mat-dialog-actions>

@@ -7,21 +7,19 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ThreadService } from '../services/thread.service';
 
 import { Observable } from 'rxjs';
+import { Thread } from '../models/thread';
 
 @Component({
-    selector: 'add-thread-dialog',
-    templateUrl: './add-thread.dialog.html',
-    styleUrls: ['./add-thread.dialog.css']
+    selector: 'edit-thread-dialog',
+    templateUrl: './edit-thread.dialog.html',
+    styleUrls: ['./edit-thread.dialog.css']
 })
 
-export class AddThreadDialog {
+export class EditThreadDialog {
       
-
-    threadTitle: string;
-
     constructor(
-        public dialogRef: MatDialogRef<AddThreadDialog>,
-        @Inject(MAT_DIALOG_DATA) public project: any,
+        public dialogRef: MatDialogRef<EditThreadDialog>,
+        @Inject(MAT_DIALOG_DATA) public thread: Thread,
         private threadService: ThreadService
     ){}
   
@@ -32,8 +30,12 @@ export class AddThreadDialog {
         this.dialogRef.close();
     }
 
-    addThread() {
-        this.threadService.addThread(this.threadTitle);
+    deleteThread() {
+        this.onNoClick();
+    }
+
+    updateThread() {
+        this.threadService.updateThread(this.thread);
         this.onNoClick();
     }
 }

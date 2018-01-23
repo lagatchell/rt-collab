@@ -13,7 +13,7 @@ import { DocThreadComponent } from './components/doc-thread/doc-thread.component
 import { ThreadService } from './services/thread.service';
 import { DocumentService } from './services/document.service';
 
-import { AddThreadDialog } from './dialogs/add-thread.dialog';
+import { EditThreadDialog } from './dialogs/edit-thread.dialog';
 
 import { MaterialDesignModule } from './shared/mat.module';
 import { PostComponent } from './components/post/post.component';
@@ -25,7 +25,7 @@ import { DocHitlistComponent } from './components/doc-hitlist/doc-hitlist.compon
     DocViewerComponent,
     DocThreadComponent,
     PostComponent,
-    AddThreadDialog,
+    EditThreadDialog,
     DocHitlistComponent
   ],
   imports: [
@@ -37,7 +37,7 @@ import { DocHitlistComponent } from './components/doc-hitlist/doc-hitlist.compon
     PdfViewerModule
   ],
   entryComponents: [
-    AddThreadDialog
+    EditThreadDialog
   ],
   providers: [
     ThreadService,
