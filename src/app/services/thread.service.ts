@@ -20,7 +20,9 @@ import { HeaderRowPlaceholder } from '@angular/cdk/table';
 @Injectable()
 export class ThreadService {
 
-  baseUrl: string = `http://dev-036296:5000`;
+  baseUrl: string = `http://35.202.67.28`;
+
+  appId:string;
 
   documentId: string = '1';
 
@@ -34,6 +36,9 @@ export class ThreadService {
     public http: HttpClient
   ) {
     this.setupSignalRConnection();
+    this.appId = Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1);
   }
 
   setupSignalRConnection() {
@@ -86,7 +91,7 @@ export class ThreadService {
 
     let newPost: Post = {
       content: post.content,
-      userName: location.host
+      userName: this.appId
     };
 
     this.http.post(`${this.baseUrl}/api/posts/${post.threadId}`, newPost).subscribe((data) => {
